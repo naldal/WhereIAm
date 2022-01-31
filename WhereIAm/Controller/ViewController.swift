@@ -10,12 +10,12 @@ import MapKit
 import UIKit
 
 class ViewController: UIViewController {
+
+    let stations:[Station] = SubwayInformation.shared.stations
     var mkMapView = MKMapView(frame: CGRect.zero)
     var namverMapView = NMFMapView(frame: CGRect.zero)
     var locationManager = CLLocationManager()
     var currentLocationLatLng: NMGLatLng?
-    
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,6 +28,8 @@ class ViewController: UIViewController {
         initLocationManager()
         setupMkMapKitView()
         setupNaverMapView()
+        
+        print("\(stations) ///")
         
     }
     
@@ -44,16 +46,24 @@ class ViewController: UIViewController {
     }
     
     func setupMkMapKitView() {
+        self.mkMapView.delegate = self
         if let location = locationManager.location {
             let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
             mkMapView.setRegion(viewRegion, animated: true)
         }
         mkMapView.showsUserLocation = true
+        
+        detectLocation()
     }
     
-    func detectLocation() {
-        
+    private func detectLocation() {
+        guard let currentLocationCenter = locationManager.location?.coordinate else { return }
+//        let rangeOnMap = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: "MYLOCATION_IDENTIFIER")
+        let circleOverlay = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
+        mkMapView.addOverlay(circleOverlay)
     }
+    
+    
     
     func setupNaverMapView() {
         namverMapView.addCameraDelegate(delegate: self)
@@ -73,6 +83,15 @@ class ViewController: UIViewController {
         }
     }
 
+}
+extension ViewController: MKMapViewDelegate {
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let circleRenderer = MKCircleRenderer(overlay: overlay)
+        circleRenderer.strokeColor = .red
+        circleRenderer.fillColor = UIColor.yellow.withAlphaComponent(0.3)
+        circleRenderer.lineWidth = 1.0
+        return circleRenderer
+    }
 }
 
 extension ViewController: CLLocationManagerDelegate {

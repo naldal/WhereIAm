@@ -10,10 +10,24 @@ import UIKit
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        if let filePath = Bundle.main.path(forResource: "subwayJson", ofType: "json") {
+            do {
+                let data = try Data(contentsOf: URL(fileURLWithPath: filePath), options: .mappedIfSafe)
+                let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
+                if let jsonResult = jsonResult as? Dictionary<String, [Double]> {
+                    jsonResult.forEach {
+                        let station = Station(name: $0.key, point: Point(latitude: $0.value[0], longitude: $0.value[1]))
+                        SubwayInformation.shared.stations.append(station)
+                    }
+                }
+            } catch {
+                print("\(error.localizedDescription)")
+            }
+        }
+            
+        
         return true
     }
 

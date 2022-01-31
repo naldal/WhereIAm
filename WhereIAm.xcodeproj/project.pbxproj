@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		DA6F6DD527A7373D00C4178E /* CameraUpdateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6F6DD427A7373D00C4178E /* CameraUpdateManager.swift */; };
+		DA47491927A7FBD9000772DA /* Subway.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA47491827A7FBD9000772DA /* Subway.swift */; };
+		DA47491C27A7FF4F000772DA /* SubwayInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA47491B27A7FF4F000772DA /* SubwayInformation.swift */; };
+		DA47491F27A807BE000772DA /* subwayJson.json in Resources */ = {isa = PBXBuildFile; fileRef = DA47491E27A807BE000772DA /* subwayJson.json */; };
 		DAEA681727A72CEB0012F7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA681627A72CEB0012F7EC /* AppDelegate.swift */; };
 		DAEA681927A72CEB0012F7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA681827A72CEB0012F7EC /* SceneDelegate.swift */; };
 		DAEA681B27A72CEB0012F7EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA681A27A72CEB0012F7EC /* ViewController.swift */; };
@@ -22,7 +24,9 @@
 		0EC124FD4212738D25A1B963 /* Pods-WhereIAm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhereIAm.release.xcconfig"; path = "Target Support Files/Pods-WhereIAm/Pods-WhereIAm.release.xcconfig"; sourceTree = "<group>"; };
 		95F65AEB5B43C4D2219FD465 /* Pods-WhereIAm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WhereIAm.debug.xcconfig"; path = "Target Support Files/Pods-WhereIAm/Pods-WhereIAm.debug.xcconfig"; sourceTree = "<group>"; };
 		D8CB38B027DE2DE1BB6C9075 /* libPods-WhereIAm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WhereIAm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DA6F6DD427A7373D00C4178E /* CameraUpdateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraUpdateManager.swift; sourceTree = "<group>"; };
+		DA47491827A7FBD9000772DA /* Subway.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subway.swift; sourceTree = "<group>"; };
+		DA47491B27A7FF4F000772DA /* SubwayInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubwayInformation.swift; sourceTree = "<group>"; };
+		DA47491E27A807BE000772DA /* subwayJson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subwayJson.json; sourceTree = SOURCE_ROOT; };
 		DAEA681327A72CEB0012F7EC /* WhereIAm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhereIAm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEA681627A72CEB0012F7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAEA681827A72CEB0012F7EC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +67,22 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		DA47491A27A7FF2F000772DA /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				DA47491B27A7FF4F000772DA /* SubwayInformation.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		DA47491D27A7FF78000772DA /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				DAEA681A27A72CEB0012F7EC /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		DAEA680A27A72CEB0012F7EC = {
 			isa = PBXGroup;
 			children = (
@@ -84,15 +104,16 @@
 		DAEA681527A72CEB0012F7EC /* WhereIAm */ = {
 			isa = PBXGroup;
 			children = (
+				DA47491D27A7FF78000772DA /* Controller */,
+				DA47491A27A7FF2F000772DA /* Service */,
 				DAEA682B27A72DE90012F7EC /* Common */,
 				DAEA682A27A72D870012F7EC /* Model */,
 				DAEA681627A72CEB0012F7EC /* AppDelegate.swift */,
-				DA6F6DD427A7373D00C4178E /* CameraUpdateManager.swift */,
 				DAEA681827A72CEB0012F7EC /* SceneDelegate.swift */,
-				DAEA681A27A72CEB0012F7EC /* ViewController.swift */,
 				DAEA681C27A72CEB0012F7EC /* Main.storyboard */,
 				DAEA681F27A72CEC0012F7EC /* Assets.xcassets */,
 				DAEA682127A72CEC0012F7EC /* LaunchScreen.storyboard */,
+				DA47491E27A807BE000772DA /* subwayJson.json */,
 				DAEA682427A72CEC0012F7EC /* Info.plist */,
 			);
 			path = WhereIAm;
@@ -101,6 +122,7 @@
 		DAEA682A27A72D870012F7EC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				DA47491827A7FBD9000772DA /* Subway.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -176,6 +198,7 @@
 				DAEA682327A72CEC0012F7EC /* LaunchScreen.storyboard in Resources */,
 				DAEA682027A72CEC0012F7EC /* Assets.xcassets in Resources */,
 				DAEA681E27A72CEB0012F7EC /* Main.storyboard in Resources */,
+				DA47491F27A807BE000772DA /* subwayJson.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,8 +253,9 @@
 			files = (
 				DAEA681B27A72CEB0012F7EC /* ViewController.swift in Sources */,
 				DAEA681727A72CEB0012F7EC /* AppDelegate.swift in Sources */,
-				DA6F6DD527A7373D00C4178E /* CameraUpdateManager.swift in Sources */,
+				DA47491C27A7FF4F000772DA /* SubwayInformation.swift in Sources */,
 				DAEA681927A72CEB0012F7EC /* SceneDelegate.swift in Sources */,
+				DA47491927A7FBD9000772DA /* Subway.swift in Sources */,
 				DAEA682D27A72DF50012F7EC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
