@@ -107,20 +107,23 @@ class MainViewController: UIViewController {
     private func detectWhichStaionIsNearBy(currentLocationCenter: CLLocationCoordinate2D) {
         let myRange = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: MYLOCATION_IDENTIFIER)
         self.stationsNames = stations.filter{ myRange.contains($0.point)}.map{$0.name}
-        bottomSheet.layoutIfNeeded() // update stations are near by
+        setStationNameOnBottomSheet() // update stations are near by
     }
     
     private func layoutBottomSheet() {
         view.addSubview(bottomSheet)
-    
-        bottomSheet.setup(stationsName: self.stationsNames)
         
+        setStationNameOnBottomSheet()
+    
         bottomSheet.snp.makeConstraints {
             $0.height.equalTo(250)
             $0.bottom.equalToSuperview().inset(UIViewUtils.shared.safeAreaBottomHeight())
             $0.left.right.equalToSuperview().inset(20)
-    
         }
+    }
+    
+    private func setStationNameOnBottomSheet() {
+        bottomSheet.setup(stationsName: self.stationsNames)
     }
 
 }
