@@ -9,13 +9,14 @@ import SnapKit
 import MapKit
 import UIKit
 
-class ViewController: UIViewController {
+class MainViewController: UIViewController {
 
     let stations:[Station] = SubwayInformation.shared.stations
     var mkMapView = MKMapView(frame: CGRect.zero)
-//    var namverMapView = NMFMapView(frame: CGRect.zero)
+
     var locationManager = CLLocationManager()
-//    var currentLocationLatLng: NMGLatLng?
+    var circleOverlay: MKCircle?
+    let bottomSheet: BottomSheet = BottomSheet(frame: CGRect.zero)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,12 +27,14 @@ class ViewController: UIViewController {
         
         initLocationManager()
         setupMkMapKitView()
-        
+        detectLocation()
+        layoutBottomSheet()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         locationManager.startUpdatingLocation()
+        detectLocation()
     }
     
     func initLocationManager() {
@@ -48,36 +51,62 @@ class ViewController: UIViewController {
             mkMapView.setRegion(viewRegion, animated: true)
         }
         mkMapView.showsUserLocation = true
-        
-        detectLocation()
     }
     
+    @objc
     private func detectLocation() {
-        guard let currentLocationCenter = locationManager.location?.coordinate else { return }
-        let circleOverlay = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
-        mkMapView.addOverlay(circleOverlay)
+        guard let currentLocationCenter = locationManager.location?.coordinate else {
+            return
+        }
         
-        let myRange = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: "myRange")
+        if circleOverlay == nil {
+            circleOverlay = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
+            mkMapView.addOverlay(circleOverlay!)
+        } else {
+            self.mkMapView.removeOverlay(self.circleOverlay!)
+            circleOverlay = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
+            DispatchQueue.main.async {
+                self.mkMapView.addOverlay(self.circleOverlay!)
+            }
+        }
+        
+        let myRange = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: MYLOCATION_IDENTIFIER)
         
         stations.forEach { station in
             if myRange.contains(station.point) {
                 print("\(station.name)이 범위안에 있어요")
             }
         }
+        
+        fetchDetectLocation()
+    }
+    
+    func fetchDetectLocation() {
+        Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(detectLocation), userInfo: nil, repeats: true)
+    }
+    
+    private func layoutBottomSheet() {
+        view.addSubview(bottomSheet)
+        bottomSheet.setup()
+        
+        bottomSheet.snp.makeConstraints {
+            $0.height.equalTo(250)
+            $0.bottom.equalToSuperview().inset(UIViewUtils.shared.safeAreaBottomHeight())
+            $0.left.right.equalToSuperview().inset(20)
+    
+        }
     }
 
-    
-    
 }
-extension ViewController: MKMapViewDelegate {
+extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
         let circleRenderer = MKCircleRenderer(overlay: overlay)
-        circleRenderer.strokeColor = .red
-        circleRenderer.fillColor = UIColor.yellow.withAlphaComponent(0.3)
-        circleRenderer.lineWidth = 1.0
+        circleRenderer.strokeColor = .green
+        circleRenderer.fillColor = UIColor.yellow.withAlphaComponent(0.1)
+        circleRenderer.lineWidth = 0.5
         return circleRenderer
     }
 }
 
-extension ViewController: CLLocationManagerDelegate {
+extension MainViewController: CLLocationManagerDelegate {
 }
