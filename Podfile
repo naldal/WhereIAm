@@ -3,5 +3,5 @@
 
 target 'WhereIAm' do
   pod 'NMapsMap'
-
+  pod 'SnapKit'
 end

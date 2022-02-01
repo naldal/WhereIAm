@@ -6,13 +6,9 @@
 //
 
 import UIKit
+import CoreLocation
 
 struct Station {
     let name: String
-    let point: Point
-}
-
-struct Point {
-    let latitude: Double
-    let longitude: Double
+    let point: CLLocationCoordinate2D
 }

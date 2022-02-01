@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,7 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let jsonResult = try JSONSerialization.jsonObject(with: data, options: .mutableContainers)
                 if let jsonResult = jsonResult as? Dictionary<String, [Double]> {
                     jsonResult.forEach {
-                        let station = Station(name: $0.key, point: Point(latitude: $0.value[0], longitude: $0.value[1]))
+                        let station = Station(name: $0.key,
+                                              point: CLLocationCoordinate2D(latitude: $0.value[0], longitude: $0.value[1])
+                        )
                         SubwayInformation.shared.stations.append(station)
                     }
                 }

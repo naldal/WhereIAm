@@ -5,7 +5,7 @@
 //  Created by 송하민 on 2022/01/31.
 //
 
-import NMapsMap
+import SnapKit
 import MapKit
 import UIKit
 
@@ -13,23 +13,19 @@ class ViewController: UIViewController {
 
     let stations:[Station] = SubwayInformation.shared.stations
     var mkMapView = MKMapView(frame: CGRect.zero)
-    var namverMapView = NMFMapView(frame: CGRect.zero)
+//    var namverMapView = NMFMapView(frame: CGRect.zero)
     var locationManager = CLLocationManager()
-    var currentLocationLatLng: NMGLatLng?
+//    var currentLocationLatLng: NMGLatLng?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mkMapView = MKMapView(frame: CGRect(x: 0, y: view.frame.height/2, width: view.frame.width, height: view.frame.height/2))
-        namverMapView = NMFMapView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height/2))
+        mkMapView = MKMapView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        
         view.addSubview(mkMapView)
-        view.addSubview(namverMapView)
         
         initLocationManager()
         setupMkMapKitView()
-        setupNaverMapView()
-        
-        print("\(stations) ///")
         
     }
     
@@ -48,7 +44,7 @@ class ViewController: UIViewController {
     func setupMkMapKitView() {
         self.mkMapView.delegate = self
         if let location = locationManager.location {
-            let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: 1000, longitudinalMeters: 1000)
+            let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: ZOOM_LEVEL, longitudinalMeters: ZOOM_LEVEL)
             mkMapView.setRegion(viewRegion, animated: true)
         }
         mkMapView.showsUserLocation = true
@@ -58,31 +54,20 @@ class ViewController: UIViewController {
     
     private func detectLocation() {
         guard let currentLocationCenter = locationManager.location?.coordinate else { return }
-//        let rangeOnMap = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: "MYLOCATION_IDENTIFIER")
         let circleOverlay = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
         mkMapView.addOverlay(circleOverlay)
-    }
-    
-    
-    
-    func setupNaverMapView() {
-        namverMapView.addCameraDelegate(delegate: self)
-        locationManager.startUpdatingLocation()
-        namverMapView.positionMode = .direction
-        if let location = locationManager.location {
-            let nmfLatLng = NMGLatLng(from: location.coordinate)
-            
-            let cameraUpdate = NMFCameraUpdate(scrollTo: nmfLatLng)
-            cameraUpdate.animation = .linear
-            namverMapView.moveCamera(cameraUpdate)
-            
-            let circle = NMFCircleOverlay()
-            circle.center = nmfLatLng
-            circle.radius = 300
-            circle.mapView = namverMapView
+        
+        let myRange = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: "myRange")
+        
+        stations.forEach { station in
+            if myRange.contains(station.point) {
+                print("\(station.name)이 범위안에 있어요")
+            }
         }
     }
 
+    
+    
 }
 extension ViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
@@ -96,7 +81,3 @@ extension ViewController: MKMapViewDelegate {
 
 extension ViewController: CLLocationManagerDelegate {
 }
-
-extension ViewController: NMFMapViewCameraDelegate {
-}
-
