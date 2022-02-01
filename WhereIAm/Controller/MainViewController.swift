@@ -107,7 +107,7 @@ class MainViewController: UIViewController {
     private func detectWhichStaionIsNearBy(currentLocationCenter: CLLocationCoordinate2D) {
         let myRange = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: MYLOCATION_IDENTIFIER)
         self.stationsNames = stations.filter{ myRange.contains($0.point)}.map{$0.name}
-        setStationNameOnBottomSheet() // update stations are near by
+        setStationNameOnBottomSheet() // update stations are near by  
     }
     
     private func layoutBottomSheet() {
