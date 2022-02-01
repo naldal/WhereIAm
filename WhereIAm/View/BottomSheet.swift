@@ -22,49 +22,31 @@ final class BottomSheet: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    lazy var nowYouAreAtLabel: UILabel = {
+    let stationNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: APPLE_FONT_BOLD, size: 22)
-        label.tintColor = .black
-        label.text = "현재 범위에"
-        return label
-    }()
-    
-    lazy var stationNameLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: APPLE_FONT_MEDIUM, size: 14)
-        label.tintColor = .black
+        label.font = UIFont(name: APPLE_FONT_BOLD, size: 25)
+        label.textColor = .black
         return label
     }()
     
     func setup(stationsName: [String]?) {
-        print("\(String(describing: stationsName))!!")
         var namesText = ""
         if let staionNames = stationsName {
-            namesText = "\(staionNames.first!)역 입니다."
-        } else {
-            namesText = "아직 역에 도달하지 않았습니다"
+            if staionNames.isEmpty {
+                namesText = "현재 범위에 역이 없습니다."
+            } else {
+                namesText = "현재 \(staionNames.first!)역 입니다."
+            }
         }
         stationNameLabel.text = namesText
-        
-        [nowYouAreAtLabel, stationNameLabel].forEach {
-            addSubview($0)
-        }
         
         layoutLabels()
     }
     
     private func layoutLabels() {
-        [nowYouAreAtLabel, stationNameLabel].forEach {
-            addSubview($0)
-        }
-        
-        nowYouAreAtLabel.snp.makeConstraints {
-            $0.top.leading.equalToSuperview().inset(50)
-        }
-        stationNameLabel.snp.makeConstraints {
-            $0.top.equalTo(nowYouAreAtLabel).inset(40)
-            $0.leading.equalTo(nowYouAreAtLabel)
+        addSubview(stationNameLabel)
+        stationNameLabel.snp.remakeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
     }
 }

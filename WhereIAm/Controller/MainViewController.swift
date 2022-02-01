@@ -47,7 +47,6 @@ class MainViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("view Will Appear")
         super.viewWillAppear(animated)
         locationManager.startUpdatingLocation()
         drawOverlayOnMap()
@@ -64,50 +63,64 @@ class MainViewController: UIViewController {
     func setupMkMapKitView() {
         self.mkMapView.delegate = self
         if let location = locationManager.location {
-            let viewRegion = MKCoordinateRegion(center: location.coordinate, latitudinalMeters: ZOOM_LEVEL, longitudinalMeters: ZOOM_LEVEL)
+            let viewRegion = MKCoordinateRegion(center: location.coordinate,
+                                                latitudinalMeters: ZOOM_LEVEL,
+                                                longitudinalMeters: ZOOM_LEVEL)
             mkMapView.setRegion(viewRegion, animated: true)
         }
         mkMapView.showsUserLocation = true
     }
     
     private func drawOverlayOnMap() {
+        if self.circleOverlay != nil { return }
+    
         guard let currentLocationCenter = locationManager.location?.coordinate else { return }
     
-        let circleOverlayLocal = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
-        DispatchQueue.main.async {
-            self.mkMapView.addOverlay(circleOverlayLocal)
-        }
-        self.circleOverlay = circleOverlayLocal
+        self.circleOverlay = MKCircle(center: currentLocationCenter,
+                                      radius: RANGE_NEARBY_MYLOCATION
+        )
+        
+        addOverlay()
         
         detectWhichStaionIsNearBy(currentLocationCenter: currentLocationCenter)
     }
     
     func repeatDrawOverlayOnMap() {
         if self.timer != nil { return }
-        timer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(timerDrawOverlayOnMap), userInfo: nil, repeats: true)
+        timer = Timer.scheduledTimer(timeInterval: 3,
+                                     target: self,
+                                     selector: #selector(timerDrawOverlayOnMap),
+                                     userInfo: nil,
+                                     repeats: true
+        )
     }
     
     @objc
     private func timerDrawOverlayOnMap() {
-        
         guard let currentLocationCenter = locationManager.location?.coordinate else { return }
-        DispatchQueue.main.async {
-            self.mkMapView.removeOverlay(self.circleOverlay!)
-            self.circleOverlay = nil
-        }
-        let circleOverlayLocal = MKCircle(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION)
-        DispatchQueue.main.async {
-            self.mkMapView.addOverlay(circleOverlayLocal)
-            self.circleOverlay = circleOverlayLocal
-        }
+        
+        
+        let circleOverlayLocal = MKCircle(center: currentLocationCenter,
+                                          radius: RANGE_NEARBY_MYLOCATION)
+        
+        self.mkMapView.exchangeOverlay(self.circleOverlay!, with: circleOverlayLocal)
         
         detectWhichStaionIsNearBy(currentLocationCenter: currentLocationCenter)
     }
     
+    private func addOverlay() {
+        self.mkMapView.removeOverlay(self.circleOverlay!)
+        DispatchQueue.main.async {
+            self.mkMapView.addOverlay(self.circleOverlay!)
+        }
+    }
+
     private func detectWhichStaionIsNearBy(currentLocationCenter: CLLocationCoordinate2D) {
-        let myRange = CLCircularRegion(center: currentLocationCenter, radius: RANGE_NEARBY_MYLOCATION, identifier: MYLOCATION_IDENTIFIER)
+        let myRange = CLCircularRegion(center: currentLocationCenter,
+                                       radius: RANGE_NEARBY_MYLOCATION,
+                                       identifier: MYLOCATION_IDENTIFIER)
         self.stationsNames = stations.filter{ myRange.contains($0.point)}.map{$0.name}
-        setStationNameOnBottomSheet() // update stations are near by  
+        setStationNameOnBottomSheet() // update stations are near by
     }
     
     private func layoutBottomSheet() {
@@ -116,7 +129,7 @@ class MainViewController: UIViewController {
         setStationNameOnBottomSheet()
     
         bottomSheet.snp.makeConstraints {
-            $0.height.equalTo(250)
+            $0.height.equalTo(180)
             $0.bottom.equalToSuperview().inset(UIViewUtils.shared.safeAreaBottomHeight())
             $0.left.right.equalToSuperview().inset(20)
         }
@@ -135,6 +148,8 @@ extension MainViewController: MKMapViewDelegate {
         circleRenderer.lineWidth = 0.5
         return circleRenderer
     }
+    
+    
 }
 
 extension MainViewController: CLLocationManagerDelegate {
