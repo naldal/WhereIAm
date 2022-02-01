@@ -97,19 +97,25 @@ class MainViewController: UIViewController {
     
     @objc
     private func timerDrawOverlayOnMap() {
-        guard let currentLocationCenter = locationManager.location?.coordinate else { return }
-        
+        guard let currentLocationCenter = locationManager.location?.coordinate else {
+            return
+        }
         
         let circleOverlayLocal = MKCircle(center: currentLocationCenter,
                                           radius: RANGE_NEARBY_MYLOCATION)
+        if circleOverlay != nil {
+            self.mkMapView.removeOverlay(self.circleOverlay!)
+        }
         
-        self.mkMapView.exchangeOverlay(self.circleOverlay!, with: circleOverlayLocal)
+        self.circleOverlay = circleOverlayLocal
+        DispatchQueue.main.async {
+            self.mkMapView.addOverlay(self.circleOverlay!)
+        }
         
         detectWhichStaionIsNearBy(currentLocationCenter: currentLocationCenter)
     }
     
     private func addOverlay() {
-        self.mkMapView.removeOverlay(self.circleOverlay!)
         DispatchQueue.main.async {
             self.mkMapView.addOverlay(self.circleOverlay!)
         }
