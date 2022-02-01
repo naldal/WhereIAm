@@ -22,8 +22,6 @@ final class BottomSheet: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    var staionNames: [String]?
-    
     lazy var nowYouAreAtLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: APPLE_FONT_BOLD, size: 22)
@@ -39,12 +37,11 @@ final class BottomSheet: UIView {
         return label
     }()
     
-    func setup() {
+    func setup(stationsName: [String]?) {
+        print("\(String(describing: stationsName))!!")
         var namesText = ""
-        if let staionNames = staionNames {
-            if staionNames.count == 1 {
-                namesText = "\(staionNames.first!)역 입니다."
-            }
+        if let staionNames = stationsName {
+            namesText = "\(staionNames.first!)역 입니다."
         } else {
             namesText = "아직 역에 도달하지 않았습니다"
         }
