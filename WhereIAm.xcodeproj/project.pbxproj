@@ -12,6 +12,7 @@
 		DA47491F27A807BE000772DA /* subwayJson.json in Resources */ = {isa = PBXBuildFile; fileRef = DA47491E27A807BE000772DA /* subwayJson.json */; };
 		DA47492127A910AF000772DA /* UIViewUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA47492027A910AE000772DA /* UIViewUtils.swift */; };
 		DA47492427A912FE000772DA /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA47492327A912FE000772DA /* BottomSheet.swift */; };
+		DA58309627AAC25800AC6689 /* RefreshLocationButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA58309527AAC25800AC6689 /* RefreshLocationButtonView.swift */; };
 		DAEA681727A72CEB0012F7EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA681627A72CEB0012F7EC /* AppDelegate.swift */; };
 		DAEA681927A72CEB0012F7EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA681827A72CEB0012F7EC /* SceneDelegate.swift */; };
 		DAEA681B27A72CEB0012F7EC /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEA681A27A72CEB0012F7EC /* MainViewController.swift */; };
@@ -31,6 +32,7 @@
 		DA47491E27A807BE000772DA /* subwayJson.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = subwayJson.json; sourceTree = SOURCE_ROOT; };
 		DA47492027A910AE000772DA /* UIViewUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewUtils.swift; sourceTree = "<group>"; };
 		DA47492327A912FE000772DA /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
+		DA58309527AAC25800AC6689 /* RefreshLocationButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RefreshLocationButtonView.swift; sourceTree = "<group>"; };
 		DAEA681327A72CEB0012F7EC /* WhereIAm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WhereIAm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEA681627A72CEB0012F7EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DAEA681827A72CEB0012F7EC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				DA47492327A912FE000772DA /* BottomSheet.swift */,
+				DA58309527AAC25800AC6689 /* RefreshLocationButtonView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				DA47492127A910AF000772DA /* UIViewUtils.swift in Sources */,
 				DAEA681927A72CEB0012F7EC /* SceneDelegate.swift in Sources */,
 				DA47491927A7FBD9000772DA /* Subway.swift in Sources */,
+				DA58309627AAC25800AC6689 /* RefreshLocationButtonView.swift in Sources */,
 				DAEA682D27A72DF50012F7EC /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -154,8 +154,6 @@ extension MainViewController: MKMapViewDelegate {
         circleRenderer.lineWidth = 0.5
         return circleRenderer
     }
-    
-    
 }
 
 extension MainViewController: CLLocationManagerDelegate {
