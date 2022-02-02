@@ -14,7 +14,9 @@ class MainViewController: UIViewController {
     let stations:[Station] = SubwayInformation.shared.stations
     
     var mkMapView = MKMapView(frame: CGRect.zero)
+    
     let bottomSheet: BottomSheet = BottomSheet(frame: CGRect.zero)
+    
     
     var isStaionNear: Bool?
     var circleOverlay: MKCircle?
